@@ -6,14 +6,12 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "newsportal.settings")
 import django
 django.setup()
 
-
 from django.contrib.auth.models import User
 from news.models import Author, Category, Post, PostCategory, Comment
 
-
 import random 
 
-def todo():    
+def fill_data():    
     User.objects.all().delete()
     Category.objects.all().delete()
     
@@ -26,38 +24,36 @@ def todo():
     mark = Author.objects.create(user = mark_user)
     
     # создание категорий
-    cat_sport = Category.objects.create(name = "Спорт")
-    cat_music = Category.objects.create(name = "Музыка")
-    cat_cinema = Category.objects.create(name = "Кино")
-    cat_IT = Category.objects.create(name = "IT")
+    category_sport = Category.objects.create(name = "Спорт")
+    category_politic = Category.objects.create(name = "Политика")
+    category_tourism = Category.objects.create(name = "Туризм")
+    category_IT = Category.objects.create(name = "IT")
     
-    # создание текстов статей/новостей
-    text_article_sport_cinema = """Статья Алекса про спорт"""
+    # Тексты статей и новости
+    sport_tourism_text = """Статья Алекса про спорт и туризм""" 
+    politic_text = """Статья Марка про политику"""
+    news_IT = """Новость Марка про IT"""
     
-    text_article_music = """Статья Марка про музыку"""
-    
-    text_news_IT = """Новость Марка про IT"""
-    
-    # создание двух статей и новости
-    article_alex = Post.objects.create(author = alex, post_type = Post.article, title = "статья_спорт_кино_Джонни", text = text_article_sport_cinema)
-    article_mark = Post.objects.create(author = mark, post_type = Post.article, title = "статья_музыка_Томми", text = text_article_music)
-    news_mark = Post.objects.create(author = mark, post_type = Post.news, title = "новость_IT_Томми", text = text_news_IT)
+    # Две статьи и новость
+    article_alex = Post.objects.create(author = alex, post_type = Post.article, title = "Статья алекса про спорт и туризм", text = sport_tourism_text)
+    article_mark = Post.objects.create(author = mark, post_type = Post.article, title = "Статья марка про политику", text =politic_text)
+    news_mark = Post.objects.create(author = mark, post_type = Post.news, title = "новость от марка про IT", text = news_IT)
     
     # присваивание категорий этим объектам
-    PostCategory.objects.create(post = article_alex, category = cat_sport)
-    PostCategory.objects.create(post = article_alex, category = cat_cinema)
-    PostCategory.objects.create(post = article_mark, category = cat_music)
-    PostCategory.objects.create(post = news_mark, category = cat_IT)
+    PostCategory.objects.create(post = article_alex, category = category_sport)
+    PostCategory.objects.create(post = article_alex, category = category_tourism)
+    PostCategory.objects.create(post = article_mark, category = category_politic)
+    PostCategory.objects.create(post = news_mark, category = category_IT)
     
-    # создание комментариев
+    #комментарии
     comment1 = Comment.objects.create(post = article_alex, user = mark.user, text = "коммент Марка №1 к статье Алекса")
     comment2 = Comment.objects.create(post = article_mark, user = alex.user, text = "коммент Алекса №2 к статье Марка")
     comment3 = Comment.objects.create(post = news_mark, user = mark.user, text = "коммент Марка №3 к новости Марка")
     comment4 = Comment.objects.create(post = news_mark, user = alex.user, text = "коммент Алекса №4 к новости Марка")
     
 
-    # список всех объектов, которые можно лайкать
-    list_for_like = [article_alex,
+    # Список для лайков
+    like_list = [article_alex,
                     article_mark,
                     news_mark,
                     comment1,
@@ -65,9 +61,9 @@ def todo():
                     comment3,
                     comment4]
     
-    # 100 рандомных лайков/дислайков
+    # Лайк/дизлайк
     for i in range(100):
-        random_obj = random.choice(list_for_like)
+        random_obj = random.choice(like_list)
         if i % 2:
             random_obj.like()
         else:
@@ -88,26 +84,19 @@ def todo():
     # лучший автор
     best_author = Author.objects.all().order_by('-rating')[0]
     
-    print("Лучший автор")
-    print("username:", best_author.user.username)
-    print("Рейтинг:", best_author.rating)
+    print(f"Лучший автор\n Имя: {best_author.user.username}\nРейтинг: {best_author.rating}")
     print("")
     
     # лучшая статья(!) - именно статья (ВАЖНО)
     best_article = Post.objects.filter(post_type = Post.article).order_by('-rating')[0]
 
-    print(f"Лучшая статья\nДата:{best_article.created}\nАвтор:{best_article.author.user.username}\nРейтинг:{best_article.rating}\n"
-          f"Заголовок:{best_article.title}\nПревью:{best_article.preview()}")
-          
-    
-    # печать комментариев к ней. Обязательно цикл, потому что комментарий может быть не один и нужен универсальный код
+    print(f"Лучшая статья\nДата: {best_article.created}\nАвтор: {best_article.author.user.username}\nРейтинг: {best_article.rating}\n"
+          f"Заголовок: {best_article.title}\nПревью: {best_article.preview()}")
+           
+    # печать комментариев к ней
     print("")
     print("Комментарии к ней")
     for comment in Comment.objects.filter(post = best_article):
-        print("Дата:", comment.created)
-        print("Автор:", comment.user.username)
-        print("Рейтинг:", comment.rating)
-        print("Комментарий:", comment.text)
-        print("")
-
-todo()
+        print(f"Дата:{comment.created}\nАвтор: {comment.user.username}\nРейтинг: {comment.rating}\nКомментарий: {comment.text}")
+    
+fill_data()
