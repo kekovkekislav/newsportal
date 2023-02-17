@@ -74,16 +74,16 @@ def todo():
             random_obj.dislike()
             
     # подсчет рейтинга Алекса
-    rating_johny = (sum([post.rating*3 for post in Post.objects.filter(author=alex)]) 
+    rating_alex = (sum([post.rating*3 for post in Post.objects.filter(author=alex)]) 
                     + sum([comment.rating for comment in Comment.objects.filter(user=alex.user)]) 
                     + sum([comment.rating for comment in Comment.objects.filter(post__author=alex)]))
-    alex.update_rating(rating_johny) # и обновление
+    alex.update_rating(rating_alex) # и обновление
     
     # подсчет рейтинга Марка
-    rating_tommy = (sum([post.rating*3 for post in Post.objects.filter(author=mark)]) 
+    rating_mark = (sum([post.rating*3 for post in Post.objects.filter(author=mark)]) 
                     + sum([comment.rating for comment in Comment.objects.filter(user=mark.user)]) 
                     + sum([comment.rating for comment in Comment.objects.filter(post__author=mark)]))
-    mark.update_rating(rating_tommy) # и обновление
+    mark.update_rating(rating_mark) # и обновление
     
     # лучший автор
     best_author = Author.objects.all().order_by('-rating')[0]
@@ -95,15 +95,13 @@ def todo():
     
     # лучшая статья(!) - именно статья (ВАЖНО)
     best_article = Post.objects.filter(post_type = Post.article).order_by('-rating')[0]
-    print("Лучшая статья")
-    print("Дата:", best_article.created)
-    print("Автор:", best_article.author.user.username)
-    print("Рейтинг:", best_article.rating)
-    print("Заголовок:", best_article.title)
-    print("Превью:", best_article.preview())
-    print("")
+
+    print(f"Лучшая статья\nДата:{best_article.created}\nАвтор:{best_article.author.user.username}\nРейтинг:{best_article.rating}\n"
+          f"Заголовок:{best_article.title}\nПревью:{best_article.preview()}")
+          
     
     # печать комментариев к ней. Обязательно цикл, потому что комментарий может быть не один и нужен универсальный код
+    print("")
     print("Комментарии к ней")
     for comment in Comment.objects.filter(post = best_article):
         print("Дата:", comment.created)
