@@ -11,10 +11,7 @@ from news.models import Author, Category, Post, PostCategory, Comment
 
 import random 
 
-def fill_data():    
-    User.objects.all().delete()
-    Category.objects.all().delete()
-    
+def fill_data():        
     # создание пользователей
     alex_user = User.objects.create_user(username = 'Alex', email = 'Alex@mail.ru', password = 'alex_password')
     mark_user = User.objects.create_user(username = 'Mark', email = 'Mark@mail.ru', password = 'mark_password')

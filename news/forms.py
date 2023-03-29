@@ -9,4 +9,4 @@ class PostForm(ModelForm):
     class Meta:
         model = Post
         widgets = {'text':forms.Textarea(attrs={'rows':1,'cols':15})}
-        fields = ['title', 'author','text']
+        fields = ['title', 'author','text','post_type']

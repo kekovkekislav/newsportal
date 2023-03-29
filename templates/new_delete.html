@@ -29,7 +29,11 @@
     </tr>
 </table>
  
-<form method="POST">
+<h1>Удаление Поста</h1>
+<hr>
+<form action="" method="post">
     {% csrf_token %}
-    <input type="submit" value="подтвердить"></form>
-{% endblock content %} 
+    <p>Удаляем "{{ object.title }}"?</p>
+    <input type="submit" value="Delete" />
+</form>
+{% endblock content %}

@@ -13,6 +13,6 @@ class PostFilter(FilterSet):
 
             'title': ['icontains'],
 
-            'author': ['exact'],
+            'author__user': ['exact'],
 
         }

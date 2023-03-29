@@ -19,14 +19,12 @@ class PostList(ListView):
     # Это имя списка, в котором будут лежать все объекты.
     # Его надо указать, чтобы обратиться к списку объектов в html-шаблоне.
     context_object_name = 'posts'
-    paginate_by = 1
+    paginate_by = 10
     form_class = PostForm
+ 
     def get_context_data(self, **kwargs):  # забираем отфильтрованные объекты переопределяя метод get_context_data у наследуемого класса (привет, полиморфизм, мы скучали!!!)
         context = super().get_context_data(**kwargs)
         context['filter'] = PostFilter(self.request.GET, queryset=self.get_queryset())  # вписываем наш фильтр в контекст
-        context['category'] = Category.objects.all()
-        context['form'] = PostForm()
-
         return context
     
 
@@ -46,22 +44,34 @@ class PostSearch(ListView):
         context['filter'] = PostFilter(self.request.GET, queryset=self.get_queryset())  # вписываем наш фильтр в контекст
         return context
 
-class PostDetailView(DetailView):
-    template_name = 'post_detail.html'
-    queryset = Post.objects.all()
 
-class PostCreateView(CreateView):
-    template_name = 'post_add.html'
+class CreateNew(CreateView):
+    template_name = 'new_edit.html'
+    form_class = PostForm
+    model = Post
+ 
+
+class CreateArticle(CreateView):
+    template_name = 'article_edit.html'
+    model = Post
     form_class = PostForm
 
-class PostUpdateView(UpdateView):
-    template_name = 'post_add.html'
+   
+
+class UpdateNew(UpdateView):
+    template_name = 'new_edit.html'
     form_class = PostForm
-    def get_object(self, **kwargs):
-        id = self.kwargs.get('pk')
-        return Post.objects.get(pk=id)
+    model = Post
+
+
+class UpdateArticle(UpdateView):
+    template_name = 'article_edit.html'
+    form_class = PostForm
+    model = Post
+
+    
     
 class PostDeleteView(DeleteView):
-    template_name = 'post_delete.html'
+    template_name = 'new_delete.html'
     queryset = Post.objects.all()
     success_url = '/news/'

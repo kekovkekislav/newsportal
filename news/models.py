@@ -47,7 +47,7 @@ class Post(models.Model):
         return self.text[:size]+'...'
     
     def get_absolute_url(self):  # добавим абсолютный путь, чтобы после создания нас перебрасывало на страницу с товаром
-        return f'/products/{self.id}' 
+        return f'/news/{self.id}' 
     
 
 class PostCategory(models.Model):
