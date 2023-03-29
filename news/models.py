@@ -46,8 +46,8 @@ class Post(models.Model):
         size = 124 if len(self.text) > 124 else len(self.text)
         return self.text[:size]+'...'
     
-    class Meta:
-        verbose_name = 'Post'
+    def get_absolute_url(self):  # добавим абсолютный путь, чтобы после создания нас перебрасывало на страницу с товаром
+        return f'/products/{self.id}' 
     
 
 class PostCategory(models.Model):

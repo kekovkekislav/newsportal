@@ -1,0 +1,33 @@
+{% extends 'flatpages/default.html' %}
+ 
+{% block title %} Post list {% endblock title %}
+ 
+{% block content %}
+<table>
+    <thead>
+        <th>
+            Title
+        </th>
+        <th>
+            Author
+        </th>
+        <th>
+            Date
+        </th>
+        <th>
+            
+        </th>
+    </thead>
+    <tr>
+        <td>
+            {{ post.title }}
+        </td>
+        <td>
+            {{ post.author.name }}
+        </td>
+        <td>
+            {{ post.created|date:'d M Y' }}
+        </td>
+    </tr>
+</table>
+{% endblock content %}
