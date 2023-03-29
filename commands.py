@@ -30,14 +30,14 @@ def fill_data():
     category_IT = Category.objects.create(name = "IT")
     
     # Тексты статей и новости
-    sport_tourism_text = """Статья Алекса про спорт и туризм""" 
-    politic_text = """Статья Марка про политику"""
-    news_IT = """Новость Марка про IT"""
+    sport_tourism_text = """Статья Алекса про спорт и туризм """ 
+    politic_text = """Статья Марка про политику """
+    news_IT = """Новость Марка про IT """
     
     # Две статьи и новость
     article_alex = Post.objects.create(author = alex, post_type = Post.article, title = "Статья алекса про спорт и туризм", text = sport_tourism_text)
     article_mark = Post.objects.create(author = mark, post_type = Post.article, title = "Статья марка про политику", text =politic_text)
-    news_mark = Post.objects.create(author = mark, post_type = Post.news, title = "новость от марка про IT", text = news_IT)
+    news_mark = Post.objects.create(author = mark, post_type = Post.news, title = "Новость от марка про IT", text = news_IT)
     
     # присваивание категорий этим объектам
     PostCategory.objects.create(post = article_alex, category = category_sport)

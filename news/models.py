@@ -12,6 +12,9 @@ class Author(models.Model):
         
 class Category(models.Model):
     name = models.CharField(max_length = 64, unique = True)
+
+    class Meta:
+        verbose_name = "Category"
     
     
 class Post(models.Model):
@@ -42,6 +45,10 @@ class Post(models.Model):
     def preview(self):
         size = 124 if len(self.text) > 124 else len(self.text)
         return self.text[:size]+'...'
+    
+    class Meta:
+        verbose_name = 'Post'
+    
 
 class PostCategory(models.Model):
     post = models.ForeignKey(Post, on_delete = models.CASCADE)
