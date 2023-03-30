@@ -25,7 +25,8 @@ SECRET_KEY = 'django-insecure-1n=j0mc+g_)z!d#ffl6x+#j@ul2%jen=%zx05jw0inynb62_8!
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1']
+
 
 
 # Application definition
@@ -40,7 +41,17 @@ INSTALLED_APPS = [
     'news',
     'django.contrib.sites',
     'django.contrib.flatpages',
-    'django_filters'
+
+    'django_filters',
+    'sign',
+    'protect',
+
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    # ... include the providers you want to enable:
+    'allauth.socialaccount.providers.google',
+
 ]
 
 MIDDLEWARE = [
@@ -74,6 +85,16 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'newsportal.wsgi.application'
+
+AUTHENTICATION_BACKENDS = [
+    
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+
+    # `allauth` specific authentication methods, such as login by e-mail
+    'allauth.account.auth_backends.AuthenticationBackend',
+    ]
+
 
 
 # Database
@@ -117,6 +138,11 @@ USE_I18N = True
 
 USE_TZ = True
 
+LOGIN_URL = 'accounts/signup'
+LOGIN_REDIRECT_URL = '/news'
+
+ACCOUNT_FORMS = {'signup': 'sign.models.BasicSignupForm'}
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
@@ -133,3 +159,9 @@ SITE_ID = 1
 STATICFILES_DIRS = [
     BASE_DIR / "static"
 ]
+
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_EMAIL_VERIFICATION = 'none'

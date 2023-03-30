@@ -1,6 +1,8 @@
 from django.urls import path
 # Импортируем созданное нами представление
 from .views import PostList, PostDetail,PostSearch,CreateNew,PostDeleteView,UpdateNew
+from django.contrib.auth.decorators import login_required
+
 
 
 
@@ -16,6 +18,6 @@ urlpatterns = [
    path('search/', PostSearch.as_view(), name='post_search'),
    path('create/', CreateNew.as_view(), name='create_new'),
    path('<int:pk>/edit', UpdateNew.as_view(), name='post_update'),
-   path('delete/<int:pk>', PostDeleteView.as_view(), name='post_delete'),
+   path('<int:pk>/delete', PostDeleteView.as_view(), name='post_delete'),
 
 ]
